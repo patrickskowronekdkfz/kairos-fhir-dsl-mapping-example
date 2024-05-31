@@ -18,9 +18,14 @@ import static de.kairos.fhir.centraxx.metamodel.RootEntities.sample
  *
  * Hints:
  *  * CCP-IT 2023-07-13: Always export aliquots with parent references
- *
+ *  * CCP-IT 2024-05-06: Export only mothersamples. Status of a mothersample is dependent of amount of available aliquots. 
  */
 specimen {
+
+  // TODO: add logic what is a mothersample in this context
+  if (!"MOTHER".equals(context.source["sampleCategory"])) {
+    return  // all not master are filtered.
+  }
 
   final String sampleTypeCode = context.source[abstractSample().sampleType().code()] as String
   if (matchIgnoreCase(["TBL", "LES", "UBK", "ZZZ", "NRT"], sampleTypeCode)) {
@@ -52,11 +57,11 @@ specimen {
 
   status = context.source[abstractSample().restAmount().amount()] > 0 ? "available" : "unavailable"
 
-  if (context.source[PARENT] != null) {
-    parent {
-      reference = "Specimen/" + context.source[sample().parent().id()]
-    }
-  }
+  //if (context.source[PARENT] != null) {
+  //  parent {
+  //    reference = "Specimen/" + context.source[sample().parent().id()]
+  //  }
+  //}
 
   type {
     // 0. First coding is the CXX sample type code. If mapping is missing, this code might help to identify the source value.
