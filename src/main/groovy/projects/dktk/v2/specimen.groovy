@@ -22,8 +22,10 @@ import static de.kairos.fhir.centraxx.metamodel.RootEntities.sample
  */
 specimen {
 
-  // TODO: add logic what is a mothersample in this context
-  if (!"MOTHER".equals(context.source["sampleCategory"])) {
+  final String sampleKind = context.source[abstractSample().sampleType().kind()] as String
+
+
+  if (!"DERIVED".equals(context.source["sampleCategory"]) && "LIQUID".equals(sampleKind) || !"MASTER".equals(context.source["sampleCategory"]) && "TISSUE".equals(sampleKind) ) {
     return  // all not master are filtered.
   }
 
@@ -55,7 +57,14 @@ specimen {
     }
   }
 
+  if ("TISSUE".equals(sampleKind)) {
   status = context.source[abstractSample().restAmount().amount()] > 0 ? "available" : "unavailable"
+  }
+  else {
+    //let status_a = 0
+    //for all aliqoutes get restAmount() += status
+    status = status_a > 0 ? "available" : "unavailable"
+  }
 
   //if (context.source[PARENT] != null) {
   //  parent {
@@ -70,7 +79,6 @@ specimen {
       code = context.source[abstractSample().sampleType().code()]
     }
 
-    final String sampleKind = context.source[abstractSample().sampleType().kind()] as String
     final String stockType = context.source[abstractSample().stockType().code()] as String
 
     // 0. Site specific CXX sample type code => BBMRI SampleMaterialType.
