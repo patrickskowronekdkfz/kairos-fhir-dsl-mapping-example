@@ -31,8 +31,6 @@ specimen {
   }
 
   final String bbmriCode0 = codeToSampleType(sampleTypeCode, stockType, sampleKind)
-  final String bbmriCode2 = sprecToBbmriSampleType(context.source[abstractSample().sampleType().sprecCode()] as String)
-
   String bbmriType
 
   if (bbmriCode0 != null) {
