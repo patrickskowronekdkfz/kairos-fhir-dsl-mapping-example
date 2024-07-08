@@ -21,18 +21,40 @@ import static de.kairos.fhir.centraxx.metamodel.RootEntities.sample
  *  * CCP-IT 2024-05-06: Export only mothersamples. Status of a mothersample is dependent of amount of available aliquots. 
  */
 specimen {
-
   final String sampleKind = context.source[abstractSample().sampleType().kind()] as String
+  final String stockType = context.source[abstractSample().stockType().code()] as String
 
-
-  if (!"DERIVED".equals(context.source["sampleCategory"]) && "LIQUID".equals(sampleKind) || !"MASTER".equals(context.source["sampleCategory"]) && "TISSUE".equals(sampleKind) ) {
-    return  // all not master are filtered.
-  }
-
+  
   final String sampleTypeCode = context.source[abstractSample().sampleType().code()] as String
   if (matchIgnoreCase(["TBL", "LES", "UBK", "ZZZ", "NRT"], sampleTypeCode)) {
     return //"Leerschnitt", "Unbekannt" are filtered
   }
+
+  final String bbmriCode0 = codeToSampleType(sampleTypeCode, stockType, sampleKind)
+  final String bbmriCode2 = sprecToBbmriSampleType(context.source[abstractSample().sampleType().sprecCode()] as String)
+
+  String bbmriType
+
+  if (bbmriCode0 != null) {
+    bbmriType = bbmriCode0
+  }  else if (isBbmriSampleTypeCode(sampleTypeCode)) {
+    bbmriType = sampleTypeCode.toLowerCase()
+  }  else if (context.source[abstractSample().sampleType().sprecCode()]) {
+     bbmriType = sprecToBbmriSampleType(context.source[abstractSample().sampleType().sprecCode()] as String)
+  }     else if (context.source[abstractSample().sampleType().sprecCode()]) {
+      bbmriType = sprecToBbmriSampleType(context.source[abstractSample().sampleType().sprecCode()] as String)
+  } else { // 3. CXX sample kind => BBMRI SampleMaterialType.
+      bbmriType = sampleKindToBbmriSampleType(sampleKind)
+  }
+  
+
+  if ((!"DERIVED".equals(context.source["sampleCategory"]) && "LIQUID".equals(sampleKind) &&
+      ( bbmriType != null && ( "blood-plasma".equals(bbmriType) || "bone-marrow".equals(bbmriType) )  )
+      ) || !"MASTER".equals(context.source["sampleCategory"]) && "TISSUE".equals(sampleKind) ) {
+    return  // all not master are filtered.
+  }
+
+
 
   id = "Specimen/" + context.source[abstractSample().id()]
 
@@ -65,55 +87,13 @@ specimen {
     //for all aliqoutes get restAmount() += status
     status = status_a > 0 ? "available" : "unavailable"
   }
-
-  //if (context.source[PARENT] != null) {
-  //  parent {
-  //    reference = "Specimen/" + context.source[sample().parent().id()]
-  //  }
-  //}
-
+  
   type {
-    // 0. First coding is the CXX sample type code. If mapping is missing, this code might help to identify the source value.
-    coding {
-      system = "urn:centraxx"
-      code = context.source[abstractSample().sampleType().code()]
-    }
-
-    final String stockType = context.source[abstractSample().stockType().code()] as String
-
     // 0. Site specific CXX sample type code => BBMRI SampleMaterialType.
-    final String bbmriCode0 = codeToSampleType(sampleTypeCode, stockType, sampleKind)
-    if (bbmriCode0 != null) {
+    if (bbmriType != null) {
       coding {
         system = "https://fhir.bbmri.de/CodeSystem/SampleMaterialType"
         code = bbmriCode0
-      }
-    } // 1. Without mapping, if CXX code and BBMRI code is the same.
-    else if (isBbmriSampleTypeCode(sampleTypeCode)) {
-      coding {
-        system = "https://fhir.bbmri.de/CodeSystem/SampleMaterialType"
-        code = sampleTypeCode.toLowerCase()
-      }
-    } // 2. CXX sample type SPREC => BBMRI SampleMaterialType.
-    else if (context.source[abstractSample().sampleType().sprecCode()]) {
-      final String bbmriCode = sprecToBbmriSampleType(context.source[abstractSample().sampleType().sprecCode()] as String)
-      if (bbmriCode != null) {
-        coding {
-          system = "https://fhir.bbmri.de/CodeSystem/SampleMaterialType"
-          code = bbmriCode
-        }
-      }
-      coding { // SPREC code is exported as second coding to identify mapping leaks.
-        system = "https://doi.org/10.1089/bio.2017.0109"
-        code = context.source[abstractSample().sampleType().sprecCode()]
-      }
-    } else { // 3. CXX sample kind => BBMRI SampleMaterialType.
-      final String bbmriCode = sampleKindToBbmriSampleType(sampleKind)
-      if (bbmriCode != null) {
-        coding {
-          system = "https://fhir.bbmri.de/CodeSystem/SampleMaterialType"
-          code = bbmriCode
-        }
       }
     }
   }
