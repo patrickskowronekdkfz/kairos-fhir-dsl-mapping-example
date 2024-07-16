@@ -46,42 +46,39 @@ specimen {
   
   // Filter all Samples that are not derived liquid samples which are alliqouted
   if (
-(!"DERIVED".equals(context.source["sampleCategory"]) && "LIQUID".equals(sampleKind) &&
-      ( bbmriType == null ||
-              (!"blood-plasma".equals(bbmriType) ||
-                      !"buffy-coat".equals(bbmriType) ||
-                      !"peripheral-blood-cells-vital".equals(bbmriType) ||
-                      !"plasma-edta".equals(bbmriType) ||
-                      !"plasma-citrat".equals(bbmriType) ||
-                      !"plasma-heparin".equals(bbmriType) ||
-                      !"plasma-cell-free".equals(bbmriType) ||
-                      !"plasma-cell-free".equals(bbmriType) ||
-                      !"plasma-other".equals(bbmriType) ||
-                      !"blood-serum".equals(bbmriType) ||
-                      !"saliva".equals(bbmriType) ||
-                      !"urine".equals(bbmriType) ||
-                      !"dna".equals(bbmriType) ||
-                      !"rna".equals(bbmriType) ||
-                      !"g-dna".equals(bbmriType) ||
-                      !"cf-dna".equals(bbmriType)
-              )
-      )
-) ||
-      // Filter all SAmples that are not master liquid samples which are not alliqouted
-        (!"Master".equals(context.source["sampleCategory"]) && "LIQUID".equals(sampleKind) &&
-                (!"dried-whole-blood".equals(bbmriType) ||
-                        !"bone-marrow".equals(bbmriType) ||
-                        !"ascites".equals(bbmriType) ||
-                        !"csf-liquor".equals(bbmriType) ||
-                        !"stool-faeces".equals(bbmriType) ||
-                        !"swab".equals(bbmriType) ||
-                        !"liquid-other".equals(bbmriType)
-                )
-        ) ||
+          !("DERIVED" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
+                  ("blood-plasma" == bbmriType ||
+                          "buffy-coat" == bbmriType ||
+                          "peripheral-blood-cells-vital" == bbmriType ||
+                          "plasma-edta" == bbmriType ||
+                          "plasma-citrat" == bbmriType ||
+                          "plasma-heparin" == bbmriType ||
+                          "plasma-cell-free" == bbmriType ||
+                          "plasma-other" == bbmriType ||
+                          "blood-serum" == bbmriType ||
+                          "saliva" == bbmriType ||
+                          "urine" == bbmriType ||
+                          "dna" == bbmriType ||
+                          "rna" == bbmriType ||
+                          "g-dna" == bbmriType ||
+                          "cf-dna" == bbmriType
+                  )
+          ) &&
+                  // Filter all Samples that are not master liquid samples which are not alliqouted
+                  !("MASTER" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
+                          ("dried-whole-blood" == bbmriType ||
+                                  "bone-marrow" == bbmriType ||
+                                  "ascites" == bbmriType ||
+                                  "csf-liquor" == bbmriType ||
+                                  "stool-faeces" == bbmriType ||
+                                  "swab" == bbmriType ||
+                                  "liquid-other" == bbmriType
+                          )
+                  )&&
       // Filter all Samples that are not master tissue samples
-        (!"MASTER".equals(context.source["sampleCategory"]) && "TISSUE".equals(sampleKind))
+                          !("MASTER" == context.source["sampleCategory"] && "TISSUE" == sampleKind)
   ) {
-    return  // all not master are filtered.
+                    return
   }
 
 
