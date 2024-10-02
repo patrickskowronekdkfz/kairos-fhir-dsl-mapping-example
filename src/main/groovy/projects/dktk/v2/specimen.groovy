@@ -46,7 +46,7 @@ specimen {
   
   // Filter all Samples that are not derived liquid samples which are alliqouted
   if (
-          !("DERIVED" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
+          !("ALIQOUTGROUP" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
                   ("blood-plasma" == bbmriType ||
                           "buffy-coat" == bbmriType ||
                           "peripheral-blood-cells-vital" == bbmriType ||
@@ -74,7 +74,7 @@ specimen {
                                   "swab" == bbmriType ||
                                   "liquid-other" == bbmriType
                           )
-                  )&&
+                  ) &&
       // Filter all Samples that are not master tissue samples
                           !("MASTER" == context.source["sampleCategory"] && "TISSUE" == sampleKind)
   ) {
