@@ -46,7 +46,7 @@ specimen {
   
   // Filter all Samples that are not derived liquid samples which are alliqouted
   if (
-          !("ALIQOUTGROUP" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
+          !("ALIQUOTGROUP" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
                   ("blood-plasma" == bbmriType ||
                           "buffy-coat" == bbmriType ||
                           "peripheral-blood-cells-vital" == bbmriType ||
