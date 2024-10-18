@@ -110,9 +110,7 @@ specimen {
   status = context.source[abstractSample().restAmount().amount()] > 0 ? "available" : "unavailable"
   }
   else {
-    //let status_a = 0
-    //for all aliqoutes get restAmount() += status
-    status = status_a > 0 ? "available" : "unavailable"
+    status = "unavailable"
   }
   
   type {
