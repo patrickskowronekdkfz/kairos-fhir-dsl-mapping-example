@@ -3,6 +3,7 @@ package projects.dktk.v2
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum
 import de.kairos.fhir.centraxx.metamodel.IdContainer
 import de.kairos.fhir.centraxx.metamodel.IdContainerType
+import org.slf4j.LoggerFactory
 
 import static de.kairos.fhir.centraxx.metamodel.RootEntities.abstractSample
 import static de.kairos.fhir.centraxx.metamodel.RootEntities.sample
@@ -85,8 +86,33 @@ specimen {
 
   id = "Specimen/" + context.source[abstractSample().id()]
 
-  final def idc = context.source[sample().idContainer()].find {
-    "EXLIQUID" == it[IdContainer.ID_CONTAINER_TYPE]?.getAt(IdContainerType.CODE)
+  def idc = ""
+
+  if ("ALIQUOTGROUP" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
+          ("blood-plasma" == bbmriType ||
+                  "buffy-coat" == bbmriType ||
+                  "peripheral-blood-cells-vital" == bbmriType ||
+                  "plasma-edta" == bbmriType ||
+                  "plasma-citrat" == bbmriType ||
+                  "plasma-heparin" == bbmriType ||
+                  "plasma-cell-free" == bbmriType ||
+                  "plasma-other" == bbmriType ||
+                  "blood-serum" == bbmriType ||
+                  "saliva" == bbmriType ||
+                  "urine" == bbmriType ||
+                  "dna" == bbmriType ||
+                  "rna" == bbmriType ||
+                  "g-dna" == bbmriType ||
+                  "cf-dna" == bbmriType
+          )
+  ) {
+    idc = context.source[sample().parent().idContainer()].find {
+      "EXLIQUID" == it[IdContainer.ID_CONTAINER_TYPE]?.getAt(IdContainerType.CODE)
+    }
+  } else {
+    idc = context.source[sample().idContainer()].find {
+      "EXLIQUID" == it[IdContainer.ID_CONTAINER_TYPE]?.getAt(IdContainerType.CODE)
+    }
   }
 
   meta {
@@ -94,6 +120,7 @@ specimen {
   }
 
   if (idc) {
+    LoggerFactory.getLogger(getClass()).warn("Found EXLIQUID Projet")
     identifier {
       value = idc[IdContainer.PSN]
       type {
