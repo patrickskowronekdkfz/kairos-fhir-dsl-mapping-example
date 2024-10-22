@@ -145,7 +145,7 @@ specimen {
     if (bbmriType != null) {
       coding {
         system = "https://fhir.bbmri.de/CodeSystem/SampleMaterialType"
-        code = bbmriCode0
+        code = bbmriType
       }
     }
   }
