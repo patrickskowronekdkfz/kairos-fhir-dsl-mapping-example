@@ -81,7 +81,7 @@ specimen {
                           "saliva" == bbmriType ||
                           "urine" == bbmriType ||
                           "dna" == bbmriType ||
-                          "rna" == bbmriType ||
+                          "rna" == bbmriType
                   )
           ) &&
                   // Filter all Samples that are not master liquid samples which are not alliqouted
@@ -115,7 +115,7 @@ specimen {
                   "saliva" == bbmriType ||
                   "urine" == bbmriType ||
                   "dna" == bbmriType ||
-                  "rna" == bbmriType ||
+                  "rna" == bbmriType
           )
   ) {
     idc = context.source[sample().parent().idContainer()].find {
