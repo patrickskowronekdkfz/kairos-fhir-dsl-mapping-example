@@ -3,7 +3,6 @@ package projects.dktk.v2
 import ca.uhn.fhir.model.api.TemporalPrecisionEnum
 import de.kairos.fhir.centraxx.metamodel.IdContainer
 import de.kairos.fhir.centraxx.metamodel.IdContainerType
-import org.slf4j.LoggerFactory
 
 import static de.kairos.fhir.centraxx.metamodel.RootEntities.abstractSample
 import static de.kairos.fhir.centraxx.metamodel.RootEntities.sample
@@ -118,7 +117,6 @@ specimen {
   }
 
   if (idc) {
-    LoggerFactory.getLogger(getClass()).warn("Found EXLIQUID Projet")
     identifier {
       value = idc[IdContainer.PSN]
       type {
