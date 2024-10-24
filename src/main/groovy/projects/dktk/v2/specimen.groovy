@@ -37,7 +37,36 @@ specimen {
   }  else if (isBbmriSampleTypeCode(sampleTypeCode)) {
     bbmriType = sampleTypeCode.toLowerCase()
   }  else if (context.source[abstractSample().sampleType().sprecCode()]) {
-     bbmriType = sprecToBbmriSampleType(context.source[abstractSample().sampleType().sprecCode()] as String)
+    def plasmaSamples = [
+            "plasma-edta",
+            "plasma-citrat",
+            "plasma-heparin",
+            "plasma-cell-free",
+            "plasma-other"
+    ]
+
+    def DnaSamples = [
+            "cf-dna",
+            "g-dna"
+    ]
+
+    def tissueSamples = [
+            "tumor-tissue-ffpe",
+            "normal-tissue-ffpe",
+            "other-tissue-ffpe"
+    ]
+
+    bbmriType = sprecToBbmriSampleType(context.source[abstractSample().sampleType().sprecCode()] as String).collect { sample ->
+      if (plasmaSamples.contains(sample)) {
+        "blood-plasma"
+      } else if (tissueSamples.contains(sample)) {
+        "tissue-ffpe"
+      } else if (DnaSamples.contains(sample)) {
+        "dna"
+      } else {
+        sample
+      }
+    }
   } else { // 3. CXX sample kind => BBMRI SampleMaterialType.
       bbmriType = sampleKindToBbmriSampleType(sampleKind)
   }
@@ -48,18 +77,11 @@ specimen {
                   ("blood-plasma" == bbmriType ||
                           "buffy-coat" == bbmriType ||
                           "peripheral-blood-cells-vital" == bbmriType ||
-                          "plasma-edta" == bbmriType ||
-                          "plasma-citrat" == bbmriType ||
-                          "plasma-heparin" == bbmriType ||
-                          "plasma-cell-free" == bbmriType ||
-                          "plasma-other" == bbmriType ||
                           "blood-serum" == bbmriType ||
                           "saliva" == bbmriType ||
                           "urine" == bbmriType ||
                           "dna" == bbmriType ||
                           "rna" == bbmriType ||
-                          "g-dna" == bbmriType ||
-                          "cf-dna" == bbmriType
                   )
           ) &&
                   // Filter all Samples that are not master liquid samples which are not alliqouted
@@ -89,18 +111,11 @@ specimen {
           ("blood-plasma" == bbmriType ||
                   "buffy-coat" == bbmriType ||
                   "peripheral-blood-cells-vital" == bbmriType ||
-                  "plasma-edta" == bbmriType ||
-                  "plasma-citrat" == bbmriType ||
-                  "plasma-heparin" == bbmriType ||
-                  "plasma-cell-free" == bbmriType ||
-                  "plasma-other" == bbmriType ||
                   "blood-serum" == bbmriType ||
                   "saliva" == bbmriType ||
                   "urine" == bbmriType ||
                   "dna" == bbmriType ||
                   "rna" == bbmriType ||
-                  "g-dna" == bbmriType ||
-                  "cf-dna" == bbmriType
           )
   ) {
     idc = context.source[sample().parent().idContainer()].find {
