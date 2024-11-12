@@ -190,13 +190,6 @@ specimen {
       }
     }
 
-    specimenQuantity {
-      value = context.source[abstractSample().restAmount().amount()] as Number
-      unit = ucum.translate(context.source[abstractSample().restAmount().unit()] as String)?.code
-      system = "http://unitsofmeasure.org"
-    }
-  }
-
 //  if (context.source[abstractSample().organisationUnit()]) {
 //    extension {
 //      url = "https://fhir.bbmri.de/StructureDefinition/Custodian"
