@@ -199,31 +199,31 @@ specimen {
 //    }
 //  }
 
-  if (context.source[sample().diagnosis()]) {
-    extension {
-      url = "https://fhir.bbmri.de/StructureDefinition/SampleDiagnosis"
-      valueCodeableConcept {
-        coding {
-          system = "http://hl7.org/fhir/sid/icd-10"
-          code = context.source[sample().diagnosis().diagnosisCode()]
+    if (context.source[sample().diagnosis()]) {
+      extension {
+        url = "https://fhir.bbmri.de/StructureDefinition/SampleDiagnosis"
+        valueCodeableConcept {
+          coding {
+            system = "http://hl7.org/fhir/sid/icd-10"
+            code = context.source[sample().diagnosis().diagnosisCode()]
+          }
+        }
+      }
+    }
+
+    final def temperature = toTemperature(context)
+    if (temperature) {
+      extension {
+        url = "https://fhir.bbmri.de/StructureDefinition/StorageTemperature"
+        valueCodeableConcept {
+          coding {
+            system = "https://fhir.bbmri.de/CodeSystem/StorageTemperature"
+            code = temperature
+          }
         }
       }
     }
   }
-
-  final def temperature = toTemperature(context)
-  if (temperature) {
-    extension {
-      url = "https://fhir.bbmri.de/StructureDefinition/StorageTemperature"
-      valueCodeableConcept {
-        coding {
-          system = "https://fhir.bbmri.de/CodeSystem/StorageTemperature"
-          code = temperature
-        }
-      }
-    }
-  }
-
 }
 
 static def toTemperature(final ctx) {
