@@ -36,7 +36,10 @@ specimen {
     bbmriType = bbmriCode0
   }  else if (isBbmriSampleTypeCode(sampleTypeCode)) {
     bbmriType = sampleTypeCode.toLowerCase()
-  }  else if (context.source[abstractSample().sampleType().sprecCode()]) {
+  } else if (sampleKindToBbmriSampleType(sampleKind) != null) {
+    // 3. CXX sample kind => BBMRI SampleMaterialType.
+      bbmriType = sampleKindToBbmriSampleType(sampleKind)
+  } else if (context.source[abstractSample().sampleType().sprecCode()] != null) {
     def plasmaSamples = [
             "plasma-edta",
             "plasma-citrat",
@@ -67,8 +70,9 @@ specimen {
         sample
       }
     }
-  } else { // 3. CXX sample kind => BBMRI SampleMaterialType.
-      bbmriType = sampleKindToBbmriSampleType(sampleKind)
+  } else {
+    //A sample without typ is not possible
+    return
   }
   
   // Filter all Samples that are not derived liquid samples which are alliqouted
