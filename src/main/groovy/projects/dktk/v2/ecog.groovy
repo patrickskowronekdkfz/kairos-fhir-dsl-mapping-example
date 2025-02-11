@@ -66,7 +66,7 @@ observation {
     }
     coding {
       system = FhirUrls.System.GtdsDict.EcogDictionary.BASE_URL
-      code = context.source[progress().ecogDict().code()] as String
+      code = replaceBadFHIRChars(context.source[progress().ecogDict().code()] as String)
       version = context.source[progress().ecogDict().version()] as String
       display = context.source[progress().ecogDict().nameMultilingualEntries()]?.find { it[LANG] == "de" }?.getAt(VALUE)
     }
@@ -102,4 +102,8 @@ static String[] toDktkEcog(final String cxxCode) {
   if (["1", "70%", "80%"].contains(cxxCode)) return ["1", "Einschränkung bei körperlicher Anstrengung, aber gehfähig; leichte körperliche Arbeit bzw. Arbeit im Sitzen (z.B. leichte Hausarbeit oder Büroarbeit) möglich (70 - 80 % nach Karnofsky)"]
   if (["0", "90%", "100%"].contains(cxxCode)) return ["0", "Normale, uneingeschränkte Aktivität wie vor der Erkrankung (90 - 100 % nach Karnofsky)"]
   else return ["U", "Unbekannt"]
+}
+
+static String replaceBadFHIRChars(String arg) {
+  return arg.replaceAll("\n", "").replaceAll("\r", "").replaceAll(" ", "").replaceAll("¨", "").replaceAll(".", "").replaceAll(",", "")
 }

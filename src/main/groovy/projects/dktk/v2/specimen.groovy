@@ -240,16 +240,6 @@ static def toTemperature(final ctx) {
     }
   }
 
-  final def sprec = ctx.source[abstractSample().receptable().sprecCode() as String]
-  if (null != sprec) {
-    switch (sprec) {
-      case ['C', 'F', 'O', 'Q']: return "temperatureLN"
-      case ['A', 'D', 'J', 'L', 'N', 'O', 'S']: return "temperature-60to-85"
-      case ['B', 'H', 'K', 'M', 'T']: return "temperature-18to-35"
-      default: return "temperatureOther"
-    }
-  }
-
   return null
 }
 

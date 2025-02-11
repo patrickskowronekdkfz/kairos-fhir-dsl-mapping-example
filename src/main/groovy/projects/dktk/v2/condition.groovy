@@ -80,7 +80,7 @@ condition {
     bodySite {
       coding {
         system = "urn:oid:2.16.840.1.113883.6.43.1"
-        code = icdCode as String
+        code = replaceBadFHIRChars(icdCode as String)
         version = context.source[diagnosis().icdEntry().catalogue().catalogueVersion()]
       }
       text = context.source[diagnosis().icdEntry().preferredLong()] as String
@@ -91,7 +91,7 @@ condition {
     bodySite {
       coding {
         system = "http://dktk.dkfz.de/fhir/onco/core/CodeSystem/SeitenlokalisationCS"
-        code = context.source[diagnosis().diagnosisLocalisation()] as String
+        code = replaceBadFHIRChars(context.source[diagnosis().diagnosisLocalisation()] as String)
       }
     }
   }
@@ -144,4 +144,8 @@ static String normalizeDate(final String dateTimeString) {
 
 static boolean hasRelevantCode(final String icdCode) {
   return icdCode != null && (icdCode.toUpperCase().startsWith('C') || icdCode.toUpperCase() ==~ "D[0-4][0-9].{0,4}" )
+}
+
+static String replaceBadFHIRChars(String arg) {
+  return arg.replaceAll("\n", "").replaceAll("\r", "").replaceAll(" ", "").replaceAll("¨", "").replaceAll(".", "").replaceAll(",", "")
 }
