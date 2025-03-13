@@ -30,7 +30,6 @@ specimen {
     }
 
     // Logic for typing
-
     final String bbmriCode0 = codeToSampleType(sampleTypeCode, stockType, sampleKind)
     String bbmriType
 
@@ -77,10 +76,9 @@ specimen {
         return
     }
 
-    // TODO: flip
     // Filter all Samples that are not derived liquid samples which are aliquoted
     if (
-            ("ALIQUOTGROUP" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
+            ("DERIVED" == context.source["sampleCategory"] && "LIQUID" == sampleKind &&
                     ("blood-plasma" == bbmriType ||
                             "buffy-coat" == bbmriType ||
                             "peripheral-blood-cells-vital" == bbmriType ||
