@@ -91,15 +91,14 @@ specimen {
             )
 
     ) {
-        return
-    }
-
-    if (context.source[abstractSample().restAmount().amount()] > 0) {
-        final File cacheFile = new File("C:/centraxx-home/groovy-cache/" + context.source[sample().parent().id()])
-        if ( cacheFile.exists() ) {
-            cacheFile.createNewFile()
+        if (context.source[abstractSample().restAmount().amount()] > 0) {
+            final File cacheFile = new File("C:/centraxx-home/groovy-cache/" + context.source[sample().parent().id()])
+            if ( cacheFile.exists() ) {
+                cacheFile.createNewFile()
+            }
         }
     }
+    return
 }
 
 static String codeToSampleType(final String sampleTypeCode, final String stockType, final String sampleKindCode) {
