@@ -152,7 +152,7 @@ specimen {
   status = context.source[abstractSample().restAmount().amount()] > 0 ? "available" : "unavailable"
   }
   else {
-    final File cacheFile = new File("C:/centraxx-home/groovy-cache/" + context.source[sample().parent().id()])
+    final File cacheFile = new File("C:/centraxx-home/groovy-cache/" + context.source[abstractSample().id()])
     if ( cacheFile.exists() ) {
       status = "available"
     } else {
