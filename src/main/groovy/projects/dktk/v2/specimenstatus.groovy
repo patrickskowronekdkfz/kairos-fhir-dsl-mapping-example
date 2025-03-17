@@ -92,9 +92,16 @@ specimen {
 
     ) {
         if (context.source[abstractSample().restAmount().amount()] > 0) {
-            final File cacheFile = new File("C:/centraxx-home/groovy-cache/" + context.source[sample().parent().id()])
-            if ( cacheFile.exists() ) {
-                cacheFile.createNewFile()
+
+            try {
+                final File cacheFile = new File("C:/centraxx-home/groovy-cache/" + context.source[sample().parent().id()])
+                if ( !cacheFile.exists() ) {
+                    cacheFile.createNewFile()
+                    cacheFile.write("test123")
+                    println "Content written to the file successfully."
+                }
+            } catch (IOException e) {
+                println "An error occurred while writing to the file: " + e.getMessage()
             }
         }
     }
