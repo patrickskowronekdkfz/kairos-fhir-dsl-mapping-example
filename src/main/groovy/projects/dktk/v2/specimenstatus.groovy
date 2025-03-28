@@ -97,8 +97,7 @@ specimen {
                 final File cacheFile = new File("C:/centraxx-home/groovy-cache/" + context.source[sample().parent().id()])
                 if ( !cacheFile.exists() ) {
                     cacheFile.createNewFile()
-                    cacheFile.write("test123")
-                    println "Content written to the file successfully."
+                    cacheFile.write("sample available")
                 }
             } catch (IOException e) {
                 println "An error occurred while writing to the file: " + e.getMessage()

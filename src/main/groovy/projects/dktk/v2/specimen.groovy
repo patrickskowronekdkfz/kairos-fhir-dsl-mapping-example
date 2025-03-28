@@ -4,6 +4,8 @@ import ca.uhn.fhir.model.api.TemporalPrecisionEnum
 import de.kairos.fhir.centraxx.metamodel.IdContainer
 import de.kairos.fhir.centraxx.metamodel.IdContainerType
 
+import java.lang.reflect.Array
+
 import static de.kairos.fhir.centraxx.metamodel.RootEntities.abstractSample
 import static de.kairos.fhir.centraxx.metamodel.RootEntities.sample
 
@@ -170,6 +172,15 @@ specimen {
 
     subject {
         reference = "Patient/" + context.source[abstractSample().patientContainer().id()]
+    }
+
+    final org_units = ["TODO for Site", "EXLIQUID"]
+
+    if (org_units.contains(context.source[abstractSample().organisationUnit()])) {
+        extension {
+            url = "https://fhir.bbmri.de/StructureDefinition/Custodian"
+            valueString = "BBMRI_DIR_ID"
+        }
     }
 
     receivedTime {
