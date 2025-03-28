@@ -407,7 +407,9 @@ static String codeToSampleType(final String sampleTypeCode, final String stockTy
         case { matchIgnoreCase(["URN", "urine", "Urin", "URIN-ÜS", "URIN-SED", "URIN_SEDIMENT", "URN_SPONTANEOUS-URINE"], sampleTypeCode) }: return "urine"
         case { matchIgnoreCase(["swab", "ZZZ_OROPHARYNGEAL_SWAB", "ZZZ_NASOPHARYNGEAL_SWAB", "REKTALABSTRICH", "Abstrich", "9"], sampleTypeCode) }: return "swab"
         case {
-            matchIgnoreCase(["Granulozyten", "PELLET-L", "BUC", "BAL-PEL", "BAL-ÜS", "THRO", "BMA", "liquid-other", "LEUK", "BALÜ", "BALZ", "BZE", "DEN", "FIB", "MAK", "MON", "MUTTERMILCH", "NKZ", "TZE", "TZL", "ZEL", "ZELLKULTUR_PRIMÄRKULTUR", "CEN", "MOTH", "LIQUID", "Flüssigprobe", "KMBLUT", "ZELLKULTUR_PRIMÄRKULTUR", "ZELLKULTUR_STABILE_ZELLINIE", "Zelllinie etabliert", "LEUKA", "PLE", "PLEURA", "PBL", "Angiolipom", "Atypisches_Fibroaxanthom", "B-Zellen", "CD4_T-Zellen", "CD8_T-Zellen", "Fibroblasten_Kultur", "MCC_Zelllinie", "Melanom_Zelllinie", "SCC", "TIL", "T-Zellen", "ZEP",
+            matchIgnoreCase(["Granulozyten", "PELLET-L", "BUC", "BAL-PEL", "BAL-ÜS", "THRO", "BMA", "liquid-other", "LEUK", "BALÜ", "BALZ", "BZE", "DEN", "FIB", "MAK", "MON", "MUTTERMILCH", "NKZ", "TZE", "TZL", "ZEL", "ZELLKULTUR_PRIMÄRKULTUR", "CEN",
+                             "MOTH", "LIQUID", "Flüssigprobe", "KMBLUT", "ZELLKULTUR_PRIMÄRKULTUR", "ZELLKULTUR_STABILE_ZELLINIE", "Zelllinie etabliert", "LEUKA", "PLE", "PLEURA", "PBL", "Angiolipom", "Atypisches_Fibroaxanthom", "B-Zellen", "CD4_T-Zellen",
+                             "CD8_T-Zellen", "Fibroblasten_Kultur", "MCC_Zelllinie", "Melanom_Zelllinie", "SCC", "TIL", "T-Zellen", "ZEP",
                              "EDTA-ZB", "ZB", "Liquid_slides"], sampleTypeCode)
         }: return "liquid-other"
         case { matchIgnoreCase(["FFPE", "PG", "PS", "PS_HE", "PS_IHC"], sampleTypeCode) }: return "tissue-ffpe"
@@ -427,7 +429,7 @@ static String codeToSampleType(final String sampleTypeCode, final String stockTy
                             matchIgnoreCase(["tissue", "gewebe", "gewebeprobe", "tissue sample"], sampleKindCode))
         }: return "tissue-frozen"
         case { matchIgnoreCase(["tissue-other", "FG", "2", "7", "Knie", "LIP", "THR", "NTG", "ST", "TF", "TGW", "NNB", "HE", "TIS_NORMAL", "TIS_TUMOR"], sampleTypeCode) }: return "tissue-other"
-        case { matchIgnoreCase(["cDNA", "gDNA", "dna", "DNA", "DNS", "PS_DNA" "CDNA ", "DNAAMP", "BLDCCFDNASTABIL", "g-dna", "cf-dna", "BLD_CIRCULATING_CELL-FREE_DNA"], sampleTypeCode) }: return "dna"
+        case { matchIgnoreCase(["cDNA", "gDNA", "dna", "DNA", "DNS", "PS_DNA", "CDNA ", "DNAAMP", "BLDCCFDNASTABIL", "g-dna", "cf-dna", "BLD_CIRCULATING_CELL-FREE_DNA"], sampleTypeCode) }: return "dna"
         case { matchIgnoreCase(["RNA", "BLDRNASTABIL", "BLD_CIRCULATING_CELL-FREE_RNA", "RNS", "PS_RNS"], sampleTypeCode) }: return "rna"
         case { matchIgnoreCase(["derivative-other", "AE"], sampleTypeCode) }: return "derivative-other"
         default: return null // no match
