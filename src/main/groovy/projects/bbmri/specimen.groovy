@@ -261,6 +261,20 @@ static String sprecToBbmriSampleType(final String sprecCode) {
   ].contains(sprecCode)) {
     return "tissue-other"
   }
+  else if (["PG", //Bone
+            "PS", //Cells from fine needle aspirate
+            "PS_HE", //Hair
+            "PS_IHC"
+  ].contains(sprecCode)) {
+    return "tissue-ffpe"
+  }
+  else if (["KS", //Bone
+            "PS", //Cells from fine needle aspirate
+            "Gewebe_EM", //Hair
+            "KS_HE"
+  ].contains(sprecCode)) {
+    return "tissue-frozen"
+  }
   return null
 }
 
