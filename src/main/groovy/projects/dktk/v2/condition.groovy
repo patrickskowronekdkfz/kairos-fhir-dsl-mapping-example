@@ -139,7 +139,7 @@ static String mapUsage(final String usage) {
  * @return the result might be something like "1989-01-15T00:00:00"
  */
 static String normalizeDate(final String dateTimeString) {
-  return dateTimeString != null ? dateTimeString.substring(0, 19) : null
+  return dateTimeString != null ? dateTimeString.substring(0, 10) : null
 }
 
 static boolean hasRelevantCode(final String icdCode) {

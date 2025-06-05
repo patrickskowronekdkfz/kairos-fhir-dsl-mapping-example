@@ -379,7 +379,7 @@ static boolean isBbmriSampleTypeCode(final String sampleTypeCode) {
  * @return the result might be something like "1989-01-15T00:00:00"
  */
 static String normalizeDate(final String dateTimeString) {
-    return dateTimeString != null ? dateTimeString.substring(0, 19) : null
+    return dateTimeString != null ? dateTimeString.substring(0, 10) : null
 }
 
 static String codeToSampleType(final String sampleTypeCode, final String stockType, final String sampleKindCode) {
