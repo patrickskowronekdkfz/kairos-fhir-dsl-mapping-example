@@ -415,7 +415,7 @@ static String codeToSampleType(final String sampleTypeCode, final String stockTy
             matchIgnoreCase(["Paraffin (FFPE)", "Paraffin", "FFPE", "NBF"], stockType) &&
                     (matchIgnoreCase(["NRT", "NGW", "TIS", "TGW", "STUGEW", "NRT", "Tumorgewebe", "Normalgewebe", "RDT", "NNB", "PTM", "RZT", "LMT",
                                       "MMT", "GEW", "TM", "BTM", "SMT", "TFL", "NBF", "tumor-tissue-ffpe", "normal-tissue-ffpe", "other-tissue-ffpe",
-                                      "TIS_NORMAL", "TIS_TUMOR"], sampleTypeCode) ||
+                                      "TIS_NORMAL", "TIS_TUMOR", "PG", "PS", "PS_HE", "PS_IHC"], sampleTypeCode) ||
                             matchIgnoreCase(["tissue", "gewebe", "gewebeprobe", "tissue sample"], sampleKindCode))
         }: return "tissue-ffpe"
         case { matchIgnoreCase(["Kryo", "KS", "Gewebe_EM", "KS_HE"], sampleTypeCode) }: return "tissue-frozen"
