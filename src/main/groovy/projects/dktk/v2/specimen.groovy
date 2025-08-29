@@ -134,15 +134,13 @@ specimen {
         profile "http://dktk.dkfz.de/fhir/StructureDefinition/onco-core-Specimen-OncoSpecimen"
     }
 
-    if (idc) {
-        identifier {
-            value = idc[IdContainer.PSN]
-            type {
-                coding {
-                    system = "urn:centraxx"
-                    code = idc[IdContainer.ID_CONTAINER_TYPE]?.getAt(IdContainerType.CODE)
-                }
-            }
+
+    identifier {
+        // This sets the pseudonym for the sample. Please replace the "REPLACE" with your ID CentraXX internal name
+        value = context.source[sample().idContainer()].find {
+            "REPLACE" == it[IdContainer.ID_CONTAINER_TYPE]?.getAt(IdContainerType.CODE)
+        }
+        if (idc) {
             system = "http://dktk.dkfz.de/fhir/sid/exliquid-specimen"
         }
     }
